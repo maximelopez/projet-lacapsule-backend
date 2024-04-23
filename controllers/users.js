@@ -1,7 +1,9 @@
 require("../models/connection");
-const User = require("../models/users");
+
 const bcrypt = require("bcrypt");
 const uid2 = require("uid2");
+
+const User = require("../models/users");
 const Category = require("../models/categories");
 
 exports.signup = (req, res) => {
@@ -24,13 +26,7 @@ exports.signup = (req, res) => {
         });
 
         newUser.save().then((user) => {
-          res.json({
-            result: true,
-            token: user.token,
-            id: user._id,
-            email: user.email,
-            firstname: user.firstname,
-          });
+          res.json({ result: true, token: user.token, id: user._id, email: user.email, firstname: user.firstname });
         });
       }
     });
@@ -46,28 +42,16 @@ exports.signin = (req, res) => {
         // L'utilisateur existe, vérification du password
         if (bcrypt.compareSync(req.body.password, user.password)) {
           // Utilisateur connecté
-          res.json({
-            result: true,
-            token: user.token,
-            id: user._id,
-            email: user.email,
-            firstname: user.firstname,
-          });
+          res.json({ result: true, token: user.token, id: user._id, email: user.email, firstname: user.firstname });
         } else {
-          res.json({
-            result: false,
-            error: "Utilisateur introuvable ou mot de passe incorrect.",
-          });
+          res.json({ result: false, error: "Utilisateur introuvable ou mot de passe incorrect." });
         }
       } else {
-        res.json({
-          result: false,
-          error: "Utilisateur introuvable ou mot de passe incorrect.",
-        });
+        res.json({ result: false, error: "Utilisateur introuvable ou mot de passe incorrect." });
       }
     });
   } else {
-    res.json({ result: false, error: "Missing or empty fields" });
+    res.json({ result: false, error: "Champs manquants ou vides." });
   }
 };
 
@@ -103,34 +87,6 @@ exports.loadEvent = (req, res) => {
   })
 }
 
-
-// //Trial delete account//
-// exports.remove = (req, res) => {
-//   //Authentification ?//
-//   if (req.body.email && req.body.password) {
-//     User.findOne({ email: req.body.email }).then((user) => {
-//       if (user) {
-//         // Verifie password
-//         if (bcrypt.compareSync(req.body.password, user.password)) {
-//           // Suppression si password correspond
-//           User.deleteOne({ _id: user._id })
-//             .then(() => {
-//               res.json({
-//                 result: true,
-//                 message: "Account deleted successfully",
-//               });
-//             })
-//             .catch((error) => {
-//               res.json({ result: false, error: "Error deleting account" });
-//             });
-//         } else {
-//           // Sinon, retourne erreur
-//           res.json({ result: false, error: "Incorrect password" });
-//         }
-//       }
-//     });
-//   }
-// };
 
 // Supprimer un compte
 exports.remove = (req, res) => {
@@ -201,30 +157,6 @@ exports.modify = (req, res) => {
         } else {
           res.json({ result: false, error: "Category not found" });
         }
-      });
-    } else {
-      res.json({ result: false, error: "Utilisateur non trouvé" });
-    }
-  });
-};
-
-exports.print = (req, res) => {
-  // checking user token
-  User.findOne({
-    token: req.params.token,
-  }).then((user) => {
-    if (user) {
-      let avatar = user.avatar;
-      let favoriteCategories = user.favoriteCategories;
-      let dateOfBirth = user.dateOfBirth;
-      let email = user.email;
-      // reading user data
-      res.json({
-        result: true,
-        avatar,
-        favoriteCategories,
-        dateOfBirth,
-        email,
       });
     } else {
       res.json({ result: false, error: "Utilisateur non trouvé" });

@@ -6,10 +6,7 @@ const userSchema = mongoose.Schema({
   password: String,
   token: String,
   avatar: String,
-  dateOfBirth: Date,
-  favoriteCategories: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
-  ],
+  favoriteCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: "categories" }],
   likedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: "events" }],
 });
 
