@@ -2,7 +2,7 @@ const Event = require("../models/events");
 const User = require("../models/users");
 const Category = require("../models/categories");
 
-
+// Créer un event
 exports.postEvent = (req, res) => {
     // Vérification des champs
     if (req.body.token && req.body.category && req.body.title && req.body.selectedDate && req.body.address && req.body.description && req.body.seats) {
@@ -45,7 +45,7 @@ exports.postEvent = (req, res) => {
     }
 };
 
-
+// Récupérer tous les events
 exports.getAllEvents = (req, res) => {
     User.findOne({ token: req.params.token }).then(user => {
       if (user) {
@@ -63,7 +63,7 @@ exports.getAllEvents = (req, res) => {
     });
 };
 
-
+// Récupérer un event
 exports.getEvent = (req, res) => {
     // Vérification du token utilisateur
     User.findOne({ token: req.params.token }).then(user => {
@@ -82,7 +82,7 @@ exports.getEvent = (req, res) => {
     })
 };
 
-
+// Supprimer un event
 exports.deleteEvent = (req, res) => {
     // Vérification du token utilisateur
     User.findOne({ token: req.params.token }).then(user => {
@@ -98,7 +98,7 @@ exports.deleteEvent = (req, res) => {
     })
 };
 
-
+// Modifier un event
 exports.updateEvent = (req, res) => {
     // Vérification du token utilisateur
     User.findOne({ token: req.params.token }).then(user => {
@@ -115,7 +115,7 @@ exports.updateEvent = (req, res) => {
 };
 
 
-
+// Inscrire un utilisateur à un event
 exports.registerEvent = (req, res) => {
     User.findOne({ token: req.params.token }).then(user => {
       if (user) {
@@ -144,6 +144,7 @@ exports.registerEvent = (req, res) => {
     })
 };
 
+// Désinscrire un utilisateur d'un event
 exports.unregisterEvent = (req, res) => {
   User.findOne({ token: req.params.token }).then(user => {
     if (user) {
@@ -172,7 +173,7 @@ exports.unregisterEvent = (req, res) => {
   })
 };
 
-
+// Récupérer tous les events où un utilisateur est inscrit
 exports.getMyEvents = (req, res) => {
   User.findOne({ token: req.params.token }).then(user => {
     if (user) {
@@ -194,7 +195,7 @@ exports.getMyEvents = (req, res) => {
   })
 };
 
-
+// Récupérer tous les events crées par un utilisateur
 exports.getMyEventsCreated = (req, res) => {
   console.log('hello')
   User.findOne({ token: req.params.token }).then(user => {
