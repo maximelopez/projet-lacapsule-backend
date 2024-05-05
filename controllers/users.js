@@ -21,7 +21,6 @@ exports.signup = (req, res) => {
           password: hash,
           token: uid2(32),
           avatar: "",
-          favoriteCategories: [],
           likedEvents: [],
         });
 

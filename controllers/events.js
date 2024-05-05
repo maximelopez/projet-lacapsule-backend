@@ -5,7 +5,7 @@ const Category = require("../models/categories");
 // Créer un event
 exports.postEvent = (req, res) => {
     // Vérification des champs
-    if (req.body.token && req.body.category && req.body.title && req.body.selectedDate && req.body.address && req.body.description && req.body.seats) {
+    if (req.body.token && req.body.category && req.body.title && req.body.selectedDate && req.body.city && req.body.description && req.body.seats) {
         // Récupérer l'id du user pour la clé étrangère
         User.findOne({ token: req.body.token }).then(userData => {
         if (userData) {
@@ -19,7 +19,7 @@ exports.postEvent = (req, res) => {
                 title: req.body.title,
                 creator: creator,
                 date: req.body.selectedDate,
-                address: req.body.address,
+                city: req.body.city,
                 category: category,
                 description: req.body.description,
                 seats: req.body.seats,
