@@ -42,9 +42,16 @@ exports.signin = (req, res) => {
         // L'utilisateur existe, vérification du password
         if (bcrypt.compareSync(req.body.password, user.password)) {
           // Utilisateur connecté
-          res.json({ result: true, token: user.token, id: user._id, email: user.email, firstname: user.firstname });
+          res.json({ 
+            result: true, 
+            token: user.token, id: 
+            user._id, 
+            email: user.email, 
+            firstname: user.firstname });
         } else {
-          res.json({ result: false, error: "Utilisateur introuvable ou mot de passe incorrect." });
+          res.json({ 
+            result: false, 
+            error: "Utilisateur introuvable ou mot de passe incorrect." });
         }
       } else {
         res.json({ result: false, error: "Utilisateur introuvable ou mot de passe incorrect." });
@@ -81,6 +88,21 @@ exports.loadEvent = (req, res) => {
   User.findOne({ token: req.params.token }).then(user => {
     if (user) {
       res.json({ result: true, eventsLiked: user.likedEvents });
+    } else {
+      res.json({ result: false, error: 'User not found' });
+    }
+  })
+}
+
+
+// Modifier sa photo de profil
+exports.uploadImage = (req, res) => {
+  User.findOne({ token: req.params.token }).then(user => {
+    if (user) {
+      // Modifier image avatar
+      User.updateOne({ token: req.params.token }, { avatar: req.body.avatar }).then(user => {
+        res.json({ result: true, avatar: user.avatar })
+      })
     } else {
       res.json({ result: false, error: 'User not found' });
     }

@@ -11,5 +11,7 @@ router.post("/signin", usersCtrl.signin);
 router.put("/like/:token/:eventId", usersCtrl.likeEvent);
 // Récupérer la liste des events que l'utilisateur à mis en favoris
 router.get("/like/:token", usersCtrl.loadEvent);
+// Modifier sa photo de profil
+router.post("/upload/:token", usersCtrl.uploadImage)
 
 module.exports = router;
