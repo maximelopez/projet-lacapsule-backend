@@ -2,6 +2,7 @@ require("../models/connection");
 
 const bcrypt = require("bcrypt");
 const uid2 = require("uid2");
+const uniqid = require('uniqid');
 
 const User = require("../models/users");
 
@@ -96,15 +97,22 @@ exports.loadEvent = (req, res) => {
 
 
 // Modifier sa photo de profil
-exports.uploadImage = (req, res) => {
-  User.findOne({ token: req.params.token }).then(user => {
-    if (user) {
-      // Modifier image avatar
-      User.updateOne({ token: req.params.token }, { avatar: req.body.avatar }).then(user => {
-        res.json({ result: true, avatar: user.avatar })
-      })
-    } else {
-      res.json({ result: false, error: 'User not found' });
-    }
-  })
+exports.uploadImage = async (req, res) => {
+  const photoPath = `./tmp/${uniqid()}.jpg`;
+  const resultMove = await req.files.photoFromFront.mv(photoPath);
+
+  if (!resultMove) {
+    User.findOne({ token: req.params.token }).then(user => {
+      if (user) {
+        // Modifier image avatar
+        User.updateOne({ token: req.params.token }, { avatar: req.files.photoFromFront }).then(user => {
+          res.json({ result: true, avatar: user.avatar })
+        })
+      } else {
+        res.json({ result: false, error: 'User not found' });
+      }
+    })
+  } else {
+    res.json({ result: false, error: resultMove });
+  }
 }

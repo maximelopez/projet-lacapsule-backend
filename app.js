@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const fileUpload = require('express-fileupload')
 
 const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories');
@@ -12,6 +13,7 @@ const eventsRouter = require('./routes/events');
 
 const app = express();
 app.use(cors());
+app.use(fileUpload());
 
 app.use(logger("dev"));
 app.use(express.json());
