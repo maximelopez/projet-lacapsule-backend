@@ -95,16 +95,3 @@ exports.loadEvent = (req, res) => {
 }
 
 
-// Modifier sa photo de profil
-exports.uploadImage = (req, res) => {
-  User.findOne({ token: req.params.token }).then(user => {
-    if (user) {
-      // Modifier image avatar
-      User.updateOne({ token: req.params.token }, { avatar: req.body.avatar }).then(user => {
-        res.json({ result: true, avatar: user.avatar })
-      })
-    } else {
-      res.json({ result: false, error: 'User not found' });
-    }
-  })
-}
